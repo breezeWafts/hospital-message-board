@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+test_uploads/
+uploads/
+
+# 环境变量（保留 .env.example）
+.env
+
+# Node
+node_modules/
+dist/
+*.local
+
+# IDE / 系统
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

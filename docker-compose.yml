@@ -1,0 +1,66 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: hmb-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: hospital_board
+      LANG: C.UTF-8
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d hospital_board"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    container_name: hmb-backend
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/hospital_board
+      POOL_MAX_SIZE: 20
+      JWT_SECRET: ${JWT_SECRET:-please-change-me-to-a-long-random-string}
+      JWT_EXPIRE_MINUTES: 720
+      CAPTCHA_SECRET: ${CAPTCHA_SECRET:-please-change-me-captcha-secret}
+      UPLOAD_DIR: /app/uploads
+      FRONTEND_BASE_URL: ${FRONTEND_BASE_URL:-http://localhost:8080}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080}
+      OAUTH2_AUTHORIZE_URL: ${OAUTH2_AUTHORIZE_URL:-}
+      OAUTH2_TOKEN_URL: ${OAUTH2_TOKEN_URL:-}
+      OAUTH2_USERINFO_URL: ${OAUTH2_USERINFO_URL:-}
+      OAUTH2_CLIENT_ID: ${OAUTH2_CLIENT_ID:-}
+      OAUTH2_CLIENT_SECRET: ${OAUTH2_CLIENT_SECRET:-}
+      OAUTH2_REDIRECT_URI: ${OAUTH2_REDIRECT_URI:-http://localhost:8080/api/auth/oauth2/callback}
+      OAUTH2_SCOPE: ${OAUTH2_SCOPE:-}
+    volumes:
+      # 附件存储：仅后端容器挂载，Nginx 不直接暴露附件目录
+      - uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: hmb-frontend
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: hmb-nginx
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  uploads:

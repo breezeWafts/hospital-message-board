@@ -1,0 +1,197 @@
+/* ============================================================
+   医院匿名留言板系统 —— 全局样式（医用青绿主题）
+   ============================================================ */
+
+:root {
+  /* 医用青绿主色 */
+  --hmb-primary: #0e7a78;
+  --hmb-primary-dark: #0b615f;
+  --hmb-primary-light: #3e9593;
+  --hmb-primary-lighter: #e6f4f3;
+  --hmb-bg: #f3f7f7;
+  --hmb-text: #2c3e50;
+  --hmb-text-secondary: #7a8a99;
+  --hmb-danger: #f56c6c;
+  --hmb-radius: 12px;
+  --hmb-shadow: 0 2px 12px rgba(11, 97, 95, 0.08);
+
+  /* Element Plus 主题变量覆写 */
+  --el-color-primary: #0e7a78;
+  --el-color-primary-light-3: #3e9593;
+  --el-color-primary-light-5: #6fb0ae;
+  --el-color-primary-light-7: #9fccca;
+  --el-color-primary-light-8: #bfdddc;
+  --el-color-primary-light-9: #dfeeee;
+  --el-color-primary-dark-2: #0b615f;
+  --el-border-radius-base: 8px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: var(--hmb-bg);
+  color: var(--hmb-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- 通用卡片 ---------- */
+.app-card {
+  background: #fff;
+  border-radius: var(--hmb-radius);
+  box-shadow: var(--hmb-shadow);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.app-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--hmb-primary-dark);
+  margin-bottom: 14px;
+}
+
+.app-card-title::before {
+  content: '';
+  width: 4px;
+  height: 16px;
+  border-radius: 2px;
+  background: var(--hmb-primary);
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--hmb-primary-dark);
+  margin: 0 0 16px;
+}
+
+.muted {
+  color: var(--hmb-text-secondary);
+  font-size: 13px;
+}
+
+/* ---------- 详情描述区 ---------- */
+.detail-line {
+  display: flex;
+  padding: 6px 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.detail-line .label {
+  flex: 0 0 110px;
+  color: var(--hmb-text-secondary);
+}
+
+.detail-line .value {
+  flex: 1;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 768px) {
+  .detail-line {
+    flex-direction: column;
+  }
+  .detail-line .label {
+    flex: none;
+  }
+}
+
+/* ---------- Vue Flow 工作流 ---------- */
+.workflow-graph {
+  height: 300px;
+  width: 100%;
+  background: #fafcfc;
+  border-radius: 10px;
+  border: 1px solid #e6ecec;
+}
+
+.workflow-graph .vue-flow__handle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.workflow-graph .vue-flow__node {
+  font-family: inherit;
+}
+
+.workflow-graph .vue-flow__controls {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(11, 97, 95, 0.12);
+}
+
+.workflow-graph .vue-flow__controls-button {
+  background: #fff;
+  border-bottom: 1px solid #eef2f2;
+  color: var(--hmb-primary-dark);
+}
+
+.workflow-graph .vue-flow__controls-button:hover {
+  background: var(--hmb-primary-lighter);
+}
+
+.workflow-graph .vue-flow__minimap {
+  border-radius: 8px;
+}
+
+/* 驳回回路说明 */
+.loop-legend {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: #fef6f6;
+  border: 1px solid #fadfdf;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #c45656;
+}
+
+/* ---------- 响应式工具 ---------- */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.toolbar .spacer {
+  flex: 1;
+}
+
+.pager {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .app-card {
+    padding: 14px;
+  }
+  .pager {
+    justify-content: center;
+  }
+}
+
+/* 表格在移动端横向滚动 */
+.table-wrap {
+  overflow-x: auto;
+}
